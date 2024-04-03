@@ -1,5 +1,5 @@
 # cdf-plotter
-Put the data in the file `data.csv`, do some needed changes in `cdf_plotter.py`, and then run `python -u cdf_plotter.py`.
+Put the data in the files like `data.csv` and `data2.csv`, do some needed changes in `cdf_plotter.py`, and then run commands like `python -u -m unittest cdf_plotter.ChartsPlotters.cdf` or `python -u -m unittest cdf_plotter.ChartsPlotters.ccdf`.
 
 Example:
 
