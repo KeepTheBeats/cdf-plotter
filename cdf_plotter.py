@@ -159,8 +159,8 @@ def draw_ccdf(cdf_headers: list[str],
         if marker_idx >= len(markers):
             marker_idx = 0
     # plt.title('Complementary CDF')
-    # if len(title) > 0:
-    #     plt.title(title)
+    if len(title) > 0:
+        plt.title(title)
     plt.xlabel(metric_name)
     plt.ylabel('CCDF')
 
@@ -233,3 +233,86 @@ class ChartsPlotters(unittest.TestCase):
         draw_ccdf([cdf_headers1[0], cdf_headers2[0]],
                   [cdf_data1[0], cdf_data2[0]],
                   "Command transmission time (ms)")
+
+    # python -u -m unittest cdf_plotter.ChartsPlotters.measure_wifi
+    def measure_wifi(self):
+        wmagw_folder = "20240404-5-min-wifi-ping/gatework"
+
+        wmagw_0dot001_line1, wmagw_0dot001_others = read_csv(
+            f"{wmagw_folder}/0dot001sec.csv")
+        wmagw_0dot001_data = [float(wmagw_0dot001_line1[0])]
+        wmagw_0dot001_data.extend(wmagw_0dot001_others[0])
+
+        wmagw_0dot01_line1, wmagw_0dot01_others = read_csv(
+            f"{wmagw_folder}/0dot01sec.csv")
+        wmagw_0dot01_data = [float(wmagw_0dot01_line1[0])]
+        wmagw_0dot01_data.extend(wmagw_0dot01_others[0])
+
+        wmagw_0dot1_line1, wmagw_0dot1_others = read_csv(
+            f"{wmagw_folder}/0dot1sec.csv")
+        wmagw_0dot1_data = [float(wmagw_0dot1_line1[0])]
+        wmagw_0dot1_data.extend(wmagw_0dot1_others[0])
+
+        wmagw_1_line1, wmagw_1_others = read_csv(f"{wmagw_folder}/1sec.csv")
+        wmagw_1_data = [float(wmagw_1_line1[0])]
+        wmagw_1_data.extend(wmagw_1_others[0])
+
+        wmagw_10_line1, wmagw_10_others = read_csv(f"{wmagw_folder}/10sec.csv")
+        wmagw_10_data = [float(wmagw_10_line1[0])]
+        wmagw_10_data.extend(wmagw_10_others[0])
+
+        laptop_folder = "20240404-5-min-wifi-ping/laptop"
+
+        laptop_0dot001_line1, laptop_0dot001_others = read_csv(
+            f"{laptop_folder}/0dot001sec.csv")
+        laptop_0dot001_data = [float(laptop_0dot001_line1[0])]
+        laptop_0dot001_data.extend(laptop_0dot001_others[0])
+
+        laptop_0dot01_line1, laptop_0dot01_others = read_csv(
+            f"{laptop_folder}/0dot01sec.csv")
+        laptop_0dot01_data = [float(laptop_0dot01_line1[0])]
+        laptop_0dot01_data.extend(laptop_0dot01_others[0])
+
+        laptop_0dot1_line1, laptop_0dot1_others = read_csv(
+            f"{laptop_folder}/0dot1sec.csv")
+        laptop_0dot1_data = [float(laptop_0dot1_line1[0])]
+        laptop_0dot1_data.extend(laptop_0dot1_others[0])
+
+        laptop_1_line1, laptop_1_others = read_csv(f"{laptop_folder}/1sec.csv")
+        laptop_1_data = [float(laptop_1_line1[0])]
+        laptop_1_data.extend(laptop_1_others[0])
+
+        laptop_10_line1, laptop_10_others = read_csv(
+            f"{laptop_folder}/10sec.csv")
+        laptop_10_data = [float(laptop_10_line1[0])]
+        laptop_10_data.extend(laptop_10_others[0])
+
+        headers = [
+            "laptop_0.001s",
+            "laptop_0.01s",
+            "laptop_0.1s",
+            "laptop_1s",
+            "laptop_10s",
+            "WMAGW_0.001s",
+            "WMAGW_0.01s",
+            "WMAGW_0.1s",
+            "WMAGW_1s",
+            "WMAGW_10s",
+        ]
+        data_for_plot = [
+            laptop_0dot001_data,
+            laptop_0dot01_data,
+            laptop_0dot1_data,
+            laptop_1_data,
+            laptop_10_data,
+            wmagw_0dot001_data,
+            wmagw_0dot01_data,
+            wmagw_0dot1_data,
+            wmagw_1_data,
+            wmagw_10_data,
+        ]
+
+        draw_ccdf(headers,
+                  data_for_plot,
+                  metric_name="Round-trip time (ms)",
+                  title="5-minute ping measurements")
