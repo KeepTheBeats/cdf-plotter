@@ -4,6 +4,8 @@ import logging
 import numpy as np
 import matplotlib.pyplot as plt
 
+from matplotlib.lines import Line2D
+
 
 class ImportantValues():
 
@@ -91,7 +93,8 @@ def draw_ccdf(cdf_headers: list[str],
               y_rotation=0,
               xlim=None,
               ylim=None):
-    markers = ["*", "v", "+", "x", "d", "1", ".", ",", "^", "2", "s"]
+
+    markers = list(Line2D.markers.keys())
     marker_idx = 0
 
     plt.figure()
@@ -166,7 +169,7 @@ def draw_ccdf(cdf_headers: list[str],
 
     # convert y-axis to Logarithmic scale
     plt.yscale('log')
-    # plt.xscale('log')
+    plt.xscale('log')
 
     if xticks is not None:
         plt.xticks(xticks, rotation=x_rotation)
@@ -236,6 +239,38 @@ class ChartsPlotters(unittest.TestCase):
 
     # python -u -m unittest cdf_plotter.ChartsPlotters.measure_wifi
     def measure_wifi(self):
+        wmagw_power_save_folder = "20240404-5-min-wifi-ping/gatework-power-save"
+
+        wmagw_power_save_0dot001_line1, wmagw_power_save_0dot001_others = read_csv(
+            f"{wmagw_power_save_folder}/0dot001sec.csv")
+        wmagw_power_save_0dot001_data = [
+            float(wmagw_power_save_0dot001_line1[0])
+        ]
+        wmagw_power_save_0dot001_data.extend(
+            wmagw_power_save_0dot001_others[0])
+
+        wmagw_power_save_0dot01_line1, wmagw_power_save_0dot01_others = read_csv(
+            f"{wmagw_power_save_folder}/0dot01sec.csv")
+        wmagw_power_save_0dot01_data = [
+            float(wmagw_power_save_0dot01_line1[0])
+        ]
+        wmagw_power_save_0dot01_data.extend(wmagw_power_save_0dot01_others[0])
+
+        wmagw_power_save_0dot1_line1, wmagw_power_save_0dot1_others = read_csv(
+            f"{wmagw_power_save_folder}/0dot1sec.csv")
+        wmagw_power_save_0dot1_data = [float(wmagw_power_save_0dot1_line1[0])]
+        wmagw_power_save_0dot1_data.extend(wmagw_power_save_0dot1_others[0])
+
+        wmagw_power_save_1_line1, wmagw_power_save_1_others = read_csv(
+            f"{wmagw_power_save_folder}/1sec.csv")
+        wmagw_power_save_1_data = [float(wmagw_power_save_1_line1[0])]
+        wmagw_power_save_1_data.extend(wmagw_power_save_1_others[0])
+
+        wmagw_power_save_10_line1, wmagw_power_save_10_others = read_csv(
+            f"{wmagw_power_save_folder}/10sec.csv")
+        wmagw_power_save_10_data = [float(wmagw_power_save_10_line1[0])]
+        wmagw_power_save_10_data.extend(wmagw_power_save_10_others[0])
+
         wmagw_folder = "20240404-5-min-wifi-ping/gatework"
 
         wmagw_0dot001_line1, wmagw_0dot001_others = read_csv(
@@ -298,6 +333,11 @@ class ChartsPlotters(unittest.TestCase):
             "WMAGW_0.1s",
             "WMAGW_1s",
             "WMAGW_10s",
+            "WMAGW_power_save_0.001s",
+            "WMAGW_power_save_0.01s",
+            "WMAGW_power_save_0.1s",
+            "WMAGW_power_save_1s",
+            "WMAGW_power_save_10s",
         ]
         data_for_plot = [
             laptop_0dot001_data,
@@ -310,6 +350,11 @@ class ChartsPlotters(unittest.TestCase):
             wmagw_0dot1_data,
             wmagw_1_data,
             wmagw_10_data,
+            wmagw_power_save_0dot001_data,
+            wmagw_power_save_0dot01_data,
+            wmagw_power_save_0dot1_data,
+            wmagw_power_save_1_data,
+            wmagw_power_save_10_data,
         ]
 
         draw_ccdf(headers,
